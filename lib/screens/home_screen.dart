@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
     return Text(
       text,
       style: const TextStyle(
-          color: Colors.black, fontSize: 22, fontWeight: FontWeight.w700),
+          color: Colors.black, fontSize: 25, fontWeight: FontWeight.w700),
     );
   }
 
@@ -33,7 +33,15 @@ class HomeScreen extends StatelessWidget {
       ),
       scrollDirection: Axis.horizontal,
       itemCount: snapshot.data!.length,
+      shrinkWrap: true,
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+    );
+  }
+
+  SizedBox movieBox(double height, AsyncSnapshot<List<MovieModel>> snapshot) {
+    return SizedBox(
+      height: height,
+      child: movieList(snapshot),
     );
   }
 
@@ -42,7 +50,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0,
+        elevation: 2,
         backgroundColor: Colors.white,
         title: const Align(
           alignment: Alignment.centerRight,
@@ -71,11 +79,8 @@ class HomeScreen extends StatelessWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 20),
-                        SizedBox(
-                          height: 310,
-                          child: movieList(snapshot),
-                        ),
+                        const SizedBox(height: 10),
+                        movieBox(230, snapshot),
                       ],
                     );
                   } else {
@@ -93,11 +98,8 @@ class HomeScreen extends StatelessWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 20),
-                        SizedBox(
-                          height: 310,
-                          child: movieList(snapshot),
-                        ),
+                        const SizedBox(height: 10),
+                        movieBox(230, snapshot),
                       ],
                     );
                   } else {
@@ -115,11 +117,8 @@ class HomeScreen extends StatelessWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 20),
-                        SizedBox(
-                          height: 310,
-                          child: movieList(snapshot),
-                        ),
+                        const SizedBox(height: 10),
+                        movieBox(230, snapshot),
                       ],
                     );
                   } else {

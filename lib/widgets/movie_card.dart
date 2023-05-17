@@ -30,8 +30,7 @@ class MovieCard extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            width: 200,
-            height: 100,
+            height: 150,
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
@@ -47,11 +46,17 @@ class MovieCard extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
+          Container(
+            constraints: const BoxConstraints(
+              maxWidth: 265,
+            ),
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+              ),
+              textAlign: TextAlign.center,
             ),
           ),
         ],

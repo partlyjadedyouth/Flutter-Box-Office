@@ -31,100 +31,127 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         leading: const BackButton(
-          color: Colors.black,
+          color: Colors.white,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            FutureBuilder(
-              future: movie,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 300,
-                            child: Image.network(
-                              '$imageURL/${snapshot.data!.poster}',
-                              headers: const {
-                                "User-Agent":
-                                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-                              },
-                            ),
+      body: FutureBuilder(
+        future: movie,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                    '$imageURL/${snapshot.data!.poster}',
+                  ),
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+              child: SafeArea(
+                bottom: false,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 4,
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.center,
+                            colors: [
+                              Colors.black.withOpacity(0.0),
+                              Colors.black,
+                            ],
                           ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        snapshot.data!.title,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 32,
-                          fontWeight: FontWeight.w700,
                         ),
-                      ),
-                      Text(
-                        "Ratings: ${snapshot.data!.vote} / 10 ${snapshot.data!.adult ? "& adult" : ''}",
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Row(
-                        children: [
-                          const Text(
-                            "Genre: ",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          for (var genre in snapshot.data!.genres)
-                            Text(
-                              "${genre['name']} ",
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 150,
                               ),
-                            ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      const Text(
-                        "Storyline",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width / 1.3,
+                                ),
+                                child: Text(
+                                  snapshot.data!.title,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "Ratings: ${snapshot.data!.vote.toStringAsFixed(2)} / 10 ${snapshot.data!.adult ? "& adult" : ''}",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  const Text(
+                                    "Genre: ",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  for (var genre in snapshot.data!.genres)
+                                    Text(
+                                      "${genre['name']} ",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              const Text(
+                                "Storyline",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(snapshot.data!.overview,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                  )),
+                            ],
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 5),
-                      Text(
-                        snapshot.data!.overview,
-                      ),
-                    ],
-                  );
-                } else {
-                  return const Text("...");
-                }
-              },
-            ),
-          ],
-        ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }
